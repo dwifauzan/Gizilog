@@ -5,6 +5,7 @@ import { useIsMobile } from '../../hooks/useIsMobile';
 import { DashboardPage } from '../../pages/DashboardPage';
 import { ProfilePage } from '../../pages/ProfilePage';
 import { HistoryPage } from '../../pages/HistoryPage';
+import { StatisticsPage } from '../../pages/StatisticsPage';
 
 export function AppLayout() {
   const location = useLocation();
@@ -12,6 +13,7 @@ export function AppLayout() {
   const isDashboard = location.pathname === '/dashboard';
   const isProfile = location.pathname === '/profile';
   const isHistory = location.pathname === '/history';
+  const isStatistics = location.pathname === '/statistics';
 
   if (!isMobile && isDashboard) {
     return <DashboardPage />;
@@ -39,6 +41,15 @@ export function AppLayout() {
     return (
       <>
         <HistoryPage />
+        <MobileNav />
+      </>
+    );
+  }
+
+  if (isMobile && isStatistics) {
+    return (
+      <>
+        <StatisticsPage />
         <MobileNav />
       </>
     );
