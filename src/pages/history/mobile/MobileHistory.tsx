@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Bell, Filter, PlusCircle, Utensils } from 'lucide-react';
-import { cn, formatNumber, sumNutrition } from '../lib/utils';
-import { MOCK_TODAY_LOG, MOCK_USER } from '../lib/data';
+import { cn, formatNumber, sumNutrition } from '../../../lib/utils';
+import { MOCK_TODAY_LOG, MOCK_USER } from '../../../lib/data';
 
 const DAYS = ['SEN', 'SEL', 'RAB', 'KAM', 'JUM', 'SAB', 'MIN'];
 

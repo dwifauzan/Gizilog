@@ -2,10 +2,10 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { MobileNav } from './MobileNav';
 import { Sidebar } from './Sidebar';
 import { useIsMobile } from '../../hooks/useIsMobile';
-import { DashboardPage } from '../../pages/DashboardPage';
-import { ProfilePage } from '../../pages/ProfilePage';
-import { HistoryPage } from '../../pages/HistoryPage';
-import { StatisticsPage } from '../../pages/StatisticsPage';
+import { DashboardPage } from '../../pages/dashboard/DashboardPage';
+import { ProfilePage } from '../../pages/profile/ProfilePage';
+import { HistoryPage } from '../../pages/history/HistoryPage';
+import { StatisticsPage } from '../../pages/statistics/StatisticsPage';
 
 export function AppLayout() {
   const location = useLocation();

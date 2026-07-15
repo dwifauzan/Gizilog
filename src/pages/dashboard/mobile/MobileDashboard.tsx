@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 import { Camera, Search, Bell } from 'lucide-react';
-import { CalorieRing } from '../components/ui/CalorieRing';
-import { sumNutrition, formatNumber } from '../lib/utils';
-import { MOCK_TODAY_LOG, MOCK_USER } from '../lib/data';
+import { CalorieRing } from '../../../components/ui/CalorieRing';
+import { sumNutrition, formatNumber } from '../../../lib/utils';
+import { MOCK_TODAY_LOG, MOCK_USER } from '../../../lib/data';
 
 const macroTargets = { protein: 60, carbs: 250, fat: 65 };
 

@@ -1,13 +1,13 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AppLayout } from './components/layout/AppLayout';
 import { ScanGuard } from './components/layout/ScanGuard';
-import { LoginPage } from './pages/LoginPage';
-import { RegisterPage } from './pages/RegisterPage';
-import { DashboardPage } from './pages/DashboardPage';
-import { ScanPage } from './pages/ScanPage';
-import { StatisticsPage } from './pages/StatisticsPage';
-import { ProfilePage } from './pages/ProfilePage';
-import { HistoryPage } from './pages/HistoryPage';
+import { LoginPage } from './pages/auth/LoginPage';
+import { RegisterPage } from './pages/auth/RegisterPage';
+import { DashboardPage } from './pages/dashboard/DashboardPage';
+import { ScanPage } from './pages/scan/ScanPage';
+import { StatisticsPage } from './pages/statistics/StatisticsPage';
+import { ProfilePage } from './pages/profile/ProfilePage';
+import { HistoryPage } from './pages/history/HistoryPage';
 
 function App() {
   return (

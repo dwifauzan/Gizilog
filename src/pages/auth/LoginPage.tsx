@@ -1,5 +1,5 @@
-import { LoginDesktop } from './LoginDesktop';
-import { LoginMobile } from './LoginMobile';
+import { LoginDesktop } from './desktop/LoginDesktop';
+import { LoginMobile } from './mobile/LoginMobile';
 
 export function LoginPage() {
   return (

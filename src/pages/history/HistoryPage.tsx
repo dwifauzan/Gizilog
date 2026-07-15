@@ -1,5 +1,5 @@
-import { useIsMobile } from '../hooks/useIsMobile';
-import { MobileHistory } from './MobileHistory';
+import { useIsMobile } from '../../hooks/useIsMobile';
+import { MobileHistory } from './mobile/MobileHistory';
 
 export function HistoryPage() {
   const isMobile = useIsMobile();

@@ -1,5 +1,5 @@
-import { RegisterDesktop } from './RegisterDesktop';
-import { RegisterMobile } from './RegisterMobile';
+import { RegisterDesktop } from './desktop/RegisterDesktop';
+import { RegisterMobile } from './mobile/RegisterMobile';
 
 export function RegisterPage() {
   return (

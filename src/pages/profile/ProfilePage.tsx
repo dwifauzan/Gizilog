@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
-import { MOCK_USER } from '../lib/data';
-import { useIsMobile } from '../hooks/useIsMobile';
+import { MOCK_USER } from '../../lib/data';
+import { useIsMobile } from '../../hooks/useIsMobile';
 
 export function ProfilePage() {
   const navigate = useNavigate();

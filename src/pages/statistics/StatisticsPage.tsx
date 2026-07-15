@@ -12,9 +12,9 @@ import {
   Area,
 } from 'recharts';
 import { TrendingUp, Sparkles, Info } from 'lucide-react';
-import { cn } from '../lib/utils';
-import { useIsMobile } from '../hooks/useIsMobile';
-import { MOCK_AI_INSIGHT, MOCK_USER, MOCK_WEEKLY_STATS, MOCK_WEIGHT_STATS } from '../lib/data';
+import { cn } from '../../lib/utils';
+import { useIsMobile } from '../../hooks/useIsMobile';
+import { MOCK_AI_INSIGHT, MOCK_USER, MOCK_WEEKLY_STATS, MOCK_WEIGHT_STATS } from '../../lib/data';
 
 export function StatisticsPage() {
   const isMobile = useIsMobile();

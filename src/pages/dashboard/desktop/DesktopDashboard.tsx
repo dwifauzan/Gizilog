@@ -9,9 +9,9 @@ import {
   ResponsiveContainer,
   Cell,
 } from 'recharts';
-import { Sidebar } from '../layout/Sidebar';
-import { cn, formatNumber } from '../../lib/utils';
-import { MOCK_TODAY_LOG, MOCK_USER, MOCK_WEEKLY_STATS } from '../../lib/data';
+import { Sidebar } from '../../../components/layout/Sidebar';
+import { cn, formatNumber } from '../../../lib/utils';
+import { MOCK_TODAY_LOG, MOCK_USER, MOCK_WEEKLY_STATS } from '../../../lib/data';
 
 const MACRO_TARGETS = {
   carbs: { target: 250, label: 'KARBOHIDRAT' },

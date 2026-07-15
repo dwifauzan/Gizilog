@@ -1,11 +1,11 @@
 import { useRef, useState, useCallback } from 'react';
 import Webcam from 'react-webcam';
 import { Camera, RotateCcw, Check, ChevronDown, ChevronUp, Sparkles, AlertCircle } from 'lucide-react';
-import { FoodPieChart } from '../components/ui/FoodPieChart';
-import { ThresholdBadge } from '../components/ui/ThresholdBadge';
-import { FALLBACK_FOODS } from '../lib/data';
-import { cn, formatNumber } from '../lib/utils';
-import type { FoodItem, Nutrition } from '../types';
+import { FoodPieChart } from '../../components/ui/FoodPieChart';
+import { ThresholdBadge } from '../../components/ui/ThresholdBadge';
+import { FALLBACK_FOODS } from '../../lib/data';
+import { cn, formatNumber } from '../../lib/utils';
+import type { FoodItem, Nutrition } from '../../types';
 
 const videoConstraints = {
   facingMode: 'environment',

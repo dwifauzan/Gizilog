@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Leaf, Eye, EyeOff, Mail, Lock, User, Ruler, Weight, Calendar, Activity, Utensils, Users, ShieldCheck, ArrowRight, CheckCircle } from 'lucide-react';
-import { calculateDailyCalories } from '../lib/utils';
-import type { UserProfile } from '../types';
+import { calculateDailyCalories } from '../../../lib/utils';
+import type { UserProfile } from '../../../types';
 
 type RegisterForm = Partial<UserProfile> & { password?: string };
 
