@@ -1,16 +1,23 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { cn } from '../../lib/utils';
-import { MOCK_USER } from '../../lib/data';
+import { useAuth } from '../../hooks/useAuth';
 
 const navItems = [
   { path: '/dashboard', label: 'Home', icon: 'home' },
-  { path: '/dashboard', label: 'Journal', icon: 'book_5' },
+  { path: '/history', label: 'Journal', icon: 'book_5' },
   { path: '/statistics', label: 'Analytics', icon: 'analytics' },
   { path: '/profile', label: 'Profile', icon: 'person' },
 ];
 
 export function Sidebar() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { profile, signOut } = useAuth();
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate('/login');
+  };
 
   return (
     <aside className="hidden lg:flex flex-col fixed left-0 top-0 h-screen w-64 bg-surface-container-lowest border-r border-outline-variant py-6 px-2 z-50 font-jakarta">
@@ -43,7 +50,7 @@ export function Sidebar() {
       <div className="mt-auto px-4">
         <button
           type="button"
-          onClick={() => alert('Fitur scan tersedia di aplikasi mobile.')}
+          onClick={() => navigate('/scan')}
           className="w-full bg-primary text-on-primary font-bold py-3 rounded-full flex items-center justify-center gap-2 transition-transform active:scale-95 hover:bg-primary/90"
         >
           <span className="material-symbols-outlined" data-icon="add">add</span>
@@ -52,11 +59,17 @@ export function Sidebar() {
 
         <div className="flex items-center gap-3 mt-8 pt-6 border-t border-outline-variant">
           <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-extrabold">
-            {MOCK_USER.name.charAt(0)}
+            {profile?.name?.charAt(0) || 'U'}
           </div>
-          <div>
-            <p className="text-sm font-bold text-on-surface">{MOCK_USER.name}</p>
-            <p className="text-xs text-text-muted">Pro Member</p>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-bold text-on-surface truncate">{profile?.name || 'User'}</p>
+            <button
+              type="button"
+              onClick={handleSignOut}
+              className="text-xs text-text-muted hover:text-primary transition-colors"
+            >
+              Logout
+            </button>
           </div>
         </div>
       </div>

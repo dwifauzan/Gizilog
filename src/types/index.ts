@@ -23,8 +23,46 @@ export interface UserProfile {
   weight: number;
   height: number;
   age: number;
+  gender?: 'male' | 'female';
   activityLevel: 'sedentary' | 'light' | 'moderate' | 'active' | 'very_active';
   dailyCalorieTarget: number;
+}
+
+export interface Profile {
+  id: string;
+  name: string;
+  age: number | null;
+  gender: 'male' | 'female' | null;
+  height_cm: number | null;
+  weight_kg: number | null;
+  activity_level: string | null;
+  daily_calorie_target: number | null;
+  created_at: string;
+}
+
+export interface JournalEntry {
+  id: string;
+  user_id: string;
+  entry_date: string;
+  meal_type: string;
+  food_name: string;
+  calories: number;
+  protein_g: number | null;
+  carbs_g: number | null;
+  fat_g: number | null;
+  sodium_mg: number | null;
+  fiber_g: number | null;
+  sugar_g: number | null;
+  threshold_status: string | null;
+  created_at: string;
+}
+
+export interface ScanHistory {
+  id: string;
+  user_id: string;
+  result: Record<string, unknown>;
+  accepted: boolean;
+  created_at: string;
 }
 
 export interface DailyLog {

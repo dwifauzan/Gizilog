@@ -2,15 +2,19 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, User, Mail, Weight, Ruler, Calendar, Activity, Leaf, HelpCircle, ArrowRight, CheckCircle } from 'lucide-react';
 import { calculateDailyCalories } from '../../../lib/utils';
+import { useAuth } from '../../../hooks/useAuth';
+import { supabase } from '../../../lib/supabase';
 import type { UserProfile } from '../../../types';
 
 type RegisterForm = Partial<UserProfile> & { password?: string };
 
 export function RegisterMobile() {
   const navigate = useNavigate();
+  const { signUp } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [step, setStep] = useState<'account' | 'profile'>('account');
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [form, setForm] = useState<RegisterForm>({
     name: '',
     email: '',
@@ -30,17 +34,40 @@ export function RegisterMobile() {
     setStep('profile');
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    setTimeout(() => {
-      const { password: _password, ...profile } = form;
-      void _password;
-      const target = calculateDailyCalories(profile as Omit<UserProfile, 'dailyCalorieTarget'>);
-      console.log('Registered user with daily target:', target);
+    setError(null);
+
+    const { password: _password, ...profile } = form;
+    void _password;
+    const target = calculateDailyCalories(profile as Omit<UserProfile, 'dailyCalorieTarget'>);
+
+    const { error: signUpError } = await signUp(form.email!, form.password!, form.name!);
+
+    if (signUpError) {
+      setError(signUpError.message);
       setIsLoading(false);
-      navigate('/dashboard');
-    }, 1500);
+      return;
+    }
+
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (user) {
+      await supabase.from('profiles').upsert({
+        id: user.id,
+        name: form.name!,
+        age: form.age,
+        height_cm: form.height,
+        weight_kg: form.weight,
+        activity_level: form.activityLevel,
+        daily_calorie_target: target,
+      });
+    }
+
+    console.log('Registered user with daily target:', target);
+    setIsLoading(false);
+    navigate('/dashboard');
   };
 
   return (
@@ -237,6 +264,13 @@ export function RegisterMobile() {
                   </div>
                 </div>
               </div>
+
+              {/* Error Message */}
+              {error && (
+                <div className="bg-red-50 border border-red-200 rounded-xl px-4 py-3 text-sm text-red-700">
+                  {error}
+                </div>
+              )}
 
               {/* Action Buttons */}
               <div className="flex gap-3 pt-2">

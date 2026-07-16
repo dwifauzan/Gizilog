@@ -5,24 +5,12 @@ import { FoodPieChart } from '../../components/ui/FoodPieChart';
 import { ThresholdBadge } from '../../components/ui/ThresholdBadge';
 import { FALLBACK_FOODS } from '../../lib/data';
 import { cn, formatNumber } from '../../lib/utils';
+import { supabase } from '../../lib/supabase';
+import { addJournalEntry } from '../../hooks/useJournal';
 import type { FoodItem, Nutrition } from '../../types';
 
 const videoConstraints = {
   facingMode: 'environment',
-};
-
-const initialResult: FoodItem = {
-  id: 'scan-result',
-  food_name: 'Nasi Campur Sayur + Telur',
-  calories: 540,
-  protein: 22,
-  fat: 18,
-  carbs: 68,
-  sodium: 1120,
-  fiber: 6,
-  sugar: 5,
-  createdAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-  category: 'Lunch',
 };
 
 export function ScanPage() {
@@ -33,7 +21,7 @@ export function ScanPage() {
   const [showMobileSheet, setShowMobileSheet] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const capture = useCallback(() => {
+  const capture = useCallback(async () => {
     const imageSrc = webcamRef.current?.getScreenshot();
     if (!imageSrc) {
       setError('Tidak dapat mengakses kamera. Pastikan izin kamera diberikan.');
@@ -42,12 +30,53 @@ export function ScanPage() {
     setProcessing(true);
     setError(null);
 
-    // Simulate AI processing delay
-    setTimeout(() => {
-      setProcessing(false);
-      setResult(initialResult);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        setError('Sesi telah berakhir. Silakan login kembali.');
+        setProcessing(false);
+        return;
+      }
+
+      const base64Data = imageSrc.split(',')[1];
+
+      const response = await fetch('/api/scan', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${session.access_token}`,
+        },
+        body: JSON.stringify({ image_data: base64Data }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Gagal menganalisis gambar');
+      }
+
+      const data = await response.json();
+
+      const foodItem: FoodItem = {
+        id: data.scan_id || 'scan-result',
+        food_name: data.food_name || 'Makanan Terdeteksi',
+        calories: data.calories || 0,
+        protein: data.protein_g || 0,
+        fat: data.fat_g || 0,
+        carbs: data.carbs_g || 0,
+        sodium: data.sodium_mg ?? 0,
+        fiber: data.fiber_g ?? 0,
+        sugar: data.sugar_g ?? 0,
+        createdAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        category: 'Lunch',
+      };
+
+      setResult(foodItem);
       setShowMobileSheet(true);
-    }, 1800);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Terjadi kesalahan saat analisis');
+    } finally {
+      setProcessing(false);
+    }
   }, [webcamRef]);
 
   const selectFallback = (food: FoodItem) => {
@@ -62,10 +91,28 @@ export function ScanPage() {
     setError(null);
   };
 
-  const handleAccept = () => {
-    // In a real app, persist to journal
-    alert(`${result?.food_name} ditambahkan ke jurnal!`);
-    resetScan();
+  const handleAccept = async () => {
+    if (!result) return;
+
+    try {
+      await addJournalEntry({
+        entry_date: new Date().toISOString().split('T')[0],
+        meal_type: result.category,
+        food_name: result.food_name,
+        calories: result.calories,
+        protein_g: result.protein,
+        carbs_g: result.carbs,
+        fat_g: result.fat,
+        sodium_mg: result.sodium ?? null,
+        fiber_g: result.fiber ?? null,
+        sugar_g: result.sugar ?? null,
+        threshold_status: null,
+      });
+
+      resetScan();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Gagal menyimpan ke jurnal');
+    }
   };
 
   const nutrition: Nutrition = {

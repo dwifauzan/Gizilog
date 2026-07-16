@@ -2,13 +2,42 @@ import { Link } from 'react-router-dom';
 import { Camera, Search, Bell } from 'lucide-react';
 import { CalorieRing } from '../../../components/ui/CalorieRing';
 import { sumNutrition, formatNumber } from '../../../lib/utils';
-import { MOCK_TODAY_LOG, MOCK_USER } from '../../../lib/data';
+import { useJournal } from '../../../hooks/useJournal';
+import { useAuth } from '../../../hooks/useAuth';
+import type { FoodItem } from '../../../types';
 
 const macroTargets = { protein: 60, carbs: 250, fat: 65 };
 
 export function MobileDashboard() {
-  const totals = sumNutrition(MOCK_TODAY_LOG.items);
-  const lastMeal = MOCK_TODAY_LOG.items[MOCK_TODAY_LOG.items.length - 1];
+  const { profile } = useAuth();
+  const today = new Date().toISOString().split('T')[0];
+  const { entries, loading } = useJournal(today);
+
+  const foodItems: FoodItem[] = entries.map((entry) => ({
+    id: entry.id,
+    food_name: entry.food_name,
+    calories: entry.calories,
+    protein: entry.protein_g || 0,
+    fat: entry.fat_g || 0,
+    carbs: entry.carbs_g || 0,
+    sodium: entry.sodium_mg || 0,
+    fiber: entry.fiber_g || 0,
+    sugar: entry.sugar_g || 0,
+    createdAt: new Date(entry.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+    category: entry.meal_type as FoodItem['category'],
+  }));
+
+  const totals = sumNutrition(foodItems);
+  const lastMeal = foodItems[foodItems.length - 1];
+  const dailyTarget = profile?.daily_calorie_target || 2500;
+
+  if (loading) {
+    return (
+      <div className="font-jakarta bg-background text-on-background min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="font-jakarta bg-background text-on-background min-h-screen pb-32">
@@ -38,7 +67,7 @@ export function MobileDashboard() {
           <div className="relative flex items-center justify-center py-4">
             <CalorieRing
               consumed={totals.calories}
-              target={MOCK_USER.dailyCalorieTarget}
+              target={dailyTarget}
               size={192}
               strokeWidth={12}
             />

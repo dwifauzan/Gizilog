@@ -1,21 +1,31 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Leaf, Eye, EyeOff, Mail, Lock, CheckCircle } from 'lucide-react';
+import { useAuth } from '../../../hooks/useAuth';
 
 export function LoginDesktop() {
   const navigate = useNavigate();
+  const { signIn } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    setTimeout(() => {
+    setError(null);
+
+    const { error } = await signIn(email, password);
+
+    if (error) {
+      setError(error.message);
       setIsLoading(false);
-      navigate('/dashboard');
-    }, 1500);
+      return;
+    }
+
+    navigate('/dashboard');
   };
 
   return (
@@ -144,6 +154,13 @@ export function LoginDesktop() {
                   </button>
                 </div>
               </div>
+
+              {/* Error Message */}
+              {error && (
+                <div className="bg-red-50 border border-red-200 rounded-xl px-4 py-3 text-sm text-red-700">
+                  {error}
+                </div>
+              )}
 
               {/* Login Button */}
               <button

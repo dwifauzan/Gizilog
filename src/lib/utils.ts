@@ -20,7 +20,7 @@ export function calculateDailyCalories(profile: Omit<UserProfile, 'dailyCalorieT
     active: 1.725,
     very_active: 1.9,
   };
-  const bmr = calculateBMR(profile.weight, profile.height, profile.age, 'male');
+  const bmr = calculateBMR(profile.weight, profile.height, profile.age, profile.gender || 'male');
   return Math.round(bmr * activityMultipliers[profile.activityLevel]);
 }
 
