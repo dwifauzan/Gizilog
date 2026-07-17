@@ -3,7 +3,7 @@ import { cn } from '../../lib/utils';
 
 const navItems = [
   { path: '/dashboard', label: 'Home', icon: 'home', filledIcon: 'home' },
-  { path: '/history', label: 'History', icon: 'history', filledIcon: 'history' },
+  { path: '/history', label: 'Journal', icon: 'history', filledIcon: 'history' },
   { path: '/statistics', label: 'Stats', icon: 'leaderboard', filledIcon: 'leaderboard' },
   { path: '/profile', label: 'Profile', icon: 'person', filledIcon: 'person' },
 ];

@@ -49,7 +49,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       body: JSON.stringify({
         model: 'gpt-4o',
         image_data,
-        prompt: 'Analyze this food image. Return JSON with: food_name, calories, protein_g, carbs_g, fat_g, sodium_mg, fiber_g, sugar_g.',
+        prompt: 'Analyze this food image. Return JSON with: food_name, calories, protein, fat, carbs, sodium_mg, fiber_g, sugar_g.',
       }),
     });
 

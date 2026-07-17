@@ -9,7 +9,6 @@ import {
   ResponsiveContainer,
   Cell,
 } from 'recharts';
-import { Sidebar } from '../../../components/layout/Sidebar';
 import { cn, formatNumber } from '../../../lib/utils';
 import { MOCK_TODAY_LOG, MOCK_USER, MOCK_WEEKLY_STATS } from '../../../lib/data';
 
@@ -89,8 +88,6 @@ export function DesktopDashboard() {
 
   return (
     <div className="font-jakarta text-on-surface bg-background min-h-screen">
-      <Sidebar />
-      <div className="lg:ml-64 min-h-screen">
         {/* Top App Bar */}
         <header className="flex justify-between items-center h-16 px-6 sticky top-0 bg-surface-bright/80 backdrop-blur-md z-40 border-b border-outline-variant">
         <div className="flex items-center flex-grow max-w-xl">
@@ -318,7 +315,6 @@ export function DesktopDashboard() {
           </div>
         </div>
       </section>
-    </div>
   </div>
   );
 }

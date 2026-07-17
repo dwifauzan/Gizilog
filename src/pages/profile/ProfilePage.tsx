@@ -1,14 +1,17 @@
 import { useNavigate } from 'react-router-dom';
 import { MOCK_USER } from '../../lib/data';
 import { useIsMobile } from '../../hooks/useIsMobile';
+import { useAuth } from '../../hooks/useAuth';
 
 export function ProfilePage() {
   const navigate = useNavigate();
   const isMobile = useIsMobile();
+  const { signOut } = useAuth();
   const consumed = 1300;
   const progress = Math.round((consumed / MOCK_USER.dailyCalorieTarget) * 100);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await signOut();
     navigate('/');
   };
 

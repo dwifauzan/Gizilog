@@ -83,7 +83,7 @@ src/
 │   │   ├── AppLayout.tsx      # Main layout wrapper (sidebar + mobile nav)
 │   │   ├── MobileNav.tsx      # Bottom navigation bar (mobile)
 │   │   ├── Sidebar.tsx        # Sticky sidebar (desktop)
-│   │   └── ScanGuard.tsx      # Route guard for scan page
+│   │   └── ScanGuard.tsx      # Camera/permission guard for scan page
 │   │
 │   └── ui/                    # Reusable UI components
 │       ├── CalorieRing.tsx    # Circular calorie progress indicator
@@ -146,7 +146,7 @@ src/
 | `/register` | Register | No layout |
 | `/dashboard` | Dashboard | AppLayout (sidebar + mobile nav) |
 | `/scan` | AI Scanner | AppLayout (with ScanGuard) |
-| `/history` | Meal History | AppLayout |
+| `/history` | Journal | AppLayout |
 | `/statistics` | Statistics | AppLayout |
 | `/profile` | Profile | AppLayout |
 | `*` | Redirect to `/` | - |
